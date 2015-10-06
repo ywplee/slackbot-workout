@@ -113,6 +113,18 @@ def selectUser(bot, exercise):
     print "Selecting user at random (queue length was " + str(len(bot.user_queue)) + ")"
     return active_users[random.randrange(0, len(active_users))]
 
+'''
+Selects an active user from a list of users
+'''
+def findUser(bot, userId):
+    active_users = fetchActiveUsers(bot)
+
+    # Add all active users not already in the user queue
+    # Shuffles to randomly add new active users
+    for user in active_users:
+        if user.id == userId:
+            return user;
+    return None
 
 '''
 Fetches a list of all active users in the channel
@@ -190,7 +202,7 @@ def assignExercise(bot, exercise):
     exercise_reps = random.randrange(exercise["minReps"], exercise["maxReps"]+1)
 
     winner_announcement = str(exercise_reps) + " " + str(exercise["units"]) + " " + exercise["name"] + " RIGHT NOW "
-    
+
     # EVERYBODY
     if random.random() < bot.group_callout_chance:
         winner_announcement += "@channel!"
@@ -198,12 +210,17 @@ def assignExercise(bot, exercise):
         for user_id in bot.user_cache:
             user = bot.user_cache[user_id]
             user.addExercise(exercise, exercise_reps)
-        
+
         logExercise(bot,"@channel",exercise["name"],exercise_reps,exercise["units"])
 
     else:
         winners = [selectUser(bot, exercise) for i in range(bot.num_people_per_callout)]
-
+        # with 50% add 2chenz
+        twoChenz = findUser(bot, "2chenz")
+        randint = random.randint(0, 1)
+        if twoChenz and randint:
+            winners.append(twoChenz)
+            bot.num_people_per_callout += 1
         for i in range(bot.num_people_per_callout):
             winner_announcement += str(winners[i].getUserHandle())
             if i == bot.num_people_per_callout - 2:
@@ -215,7 +232,6 @@ def assignExercise(bot, exercise):
 
             winners[i].addExercise(exercise, exercise_reps)
             logExercise(bot,winners[i].getUserHandle(),exercise["name"],exercise_reps,exercise["units"])
-
     # Announce the user
     if not bot.debug:
         requests.post(bot.post_URL, data=winner_announcement)

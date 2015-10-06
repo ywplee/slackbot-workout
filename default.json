@@ -1,27 +1,27 @@
 {
-  "teamDomain": "yourDomainHere",
-  "channelName": "general",
-  "channelId": "channelIdHere",
+  "teamDomain": "zumper",
+  "channelName": "globo-gym",
+  "channelId": "C0BSZELTV",
 
   "debug": false,
 
   "callouts": {
     "timeBetween": {
-      "minTime": 17,
-      "maxTime": 23,
+      "minTime": 30,
+      "maxTime": 30,
       "units": "minutes"
     },
     "numPeople": 3,
     "slidingWindowSize": 8,
-    "groupCalloutChance": 0.05
+    "groupCalloutChance": 0.10
   },
 
   "exercises": [
     {
       "id": 0,
       "name": "pushups",
-      "minReps": 15,
-      "maxReps": 20,
+      "minReps": 20,
+      "maxReps": 30,
       "units": "rep"
     },
     {
@@ -35,7 +35,7 @@
       "id": 2,
       "name": "wall sit",
       "minReps": 40,
-      "maxReps": 50,
+      "maxReps": 60,
       "units": "second"
     },
     {
@@ -48,6 +48,13 @@
     {
       "id": 4,
       "name": "calf raises",
+      "minReps": 20,
+      "maxReps": 30,
+      "units": "rep"
+    },
+    {
+      "id": 4,
+      "name": "body squat",
       "minReps": 20,
       "maxReps": 30,
       "units": "rep"
